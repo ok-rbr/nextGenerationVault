@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Vault AI Policy",
+  "type": "object",
+  "$defs": {
+    "vault_path": {
+      "description": "Folder prefix relative to the vault root, inside one of the top-level folders (#32)",
+      "type": "string",
+      "pattern": "^(00_knowledge|01_projects|02_areas|03_resources|04_archive|99_system)/"
+    }
+  },
+  "properties": {
+    "protected_paths": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/vault_path" }
+    },
+    "llm_excluded_paths": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/vault_path" }
+    },
+    "forbidden_actions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "allowed_actions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "sensitive_paths": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/vault_path" }
+    },
+    "pii_keywords": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "never_delete": { "type": "boolean" },
+    "never_overwrite_without_review": { "type": "boolean" },
+    "never_send_to_remote_llm": { "type": "boolean" }
+  },
+  "required": [
+    "protected_paths",
+    "llm_excluded_paths",
+    "forbidden_actions",
+    "allowed_actions"
+  ],
+  "additionalProperties": false
+}

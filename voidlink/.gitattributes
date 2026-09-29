@@ -1,0 +1,17 @@
+# VoidSystem house standard (raxovile/voidCore#275). This file is identical in
+# every repository except for one allowed addition at the end: the repository's
+# lockfile marked as generated. Anything else needs a justification comment.
+
+* text=auto eol=lf
+
+*.ps1  text eol=crlf
+*.psd1 text eol=crlf
+*.psm1 text eol=crlf
+
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.ico  binary
+*.webp binary
+
+uv.lock linguist-generated=true -diff

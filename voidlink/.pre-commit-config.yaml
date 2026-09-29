@@ -1,0 +1,66 @@
+# VoidSystem house standard (raxovile/voidCore#275).
+# The two repositories below are the language-agnostic core and identical in
+# every repository apart from the branch of no-commit-to-branch. Hooks for the
+# languages this repository contains follow after them.
+#
+#   pre-commit install            # once per clone
+#   pre-commit run --all-files    # everything, e.g. after changing this file
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: no-commit-to-branch
+        args: [--branch, main]
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: [--baseline, .secrets.baseline]
+        exclude: (\.lock|poetry\.lock|package-lock\.json|pnpm-lock\.yaml|lazy-lock\.json)$
+
+  # Python — ruff from uv.lock, the exact version `uv run ruff` runs.
+  # A local hook instead of astral-sh/ruff-pre-commit keeps uv.lock the only
+  # place the version is pinned. --force-exclude keeps the pyproject.toml
+  # excludes in force when pre-commit passes file names explicitly.
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check
+        entry: uv run --frozen ruff check --force-exclude --fix
+        language: system
+        types_or: [python, pyi]
+        require_serial: true
+      - id: ruff-format
+        name: ruff format
+        entry: uv run --frozen ruff format --force-exclude
+        language: system
+        types_or: [python, pyi]
+        require_serial: true
+
+  # Staging output describes the real vault (note paths, sizes, plans) and
+  # never belongs in Git; only the placeholder is tracked (#43).
+  - repo: local
+    hooks:
+      - id: no-ai-staging-output
+        name: no vault-agent output under 99_system/ai_staging
+        entry: 99_system/ai_staging/ holds generated output for local review only; do not commit it
+        language: fail
+        files: ^99_system/ai_staging/
+        exclude: ^99_system/ai_staging/\.gitkeep$
+
+  # Shell — default rules, as in the other VoidSystem repositories.
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck

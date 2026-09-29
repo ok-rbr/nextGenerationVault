@@ -1,0 +1,29 @@
+# VoidSystem house standard (raxovile/voidCore#275). This file is identical in
+# every repository; a deviation needs a justification as a comment right here.
+# No max_line_length: the formatters (Prettier, ruff, StyLua, yamllint) own it.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# PEP 8, enforced by ruff format
+[*.py]
+indent_size = 4
+
+# PowerShell tooling on Windows expects CRLF; four spaces are its convention
+[*.{ps1,psd1,psm1}]
+end_of_line = crlf
+indent_size = 4
+
+# Two trailing spaces are a hard line break in Markdown
+[*.md]
+trim_trailing_whitespace = false
+
+# Tabs are Makefile syntax, not style
+[Makefile]
+indent_style = tab

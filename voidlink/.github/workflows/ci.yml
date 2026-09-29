@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# a newer push to the same branch or pull request supersedes the running check
+# (raxovile/voidCore#269)
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# The checks live in scripts/check.sh, so a contributor runs exactly what CI
+# runs. One job: lint and tests share the same environment. Nothing here needs
+# a secret, a vault or Ollama.
+env:
+  CHECK_REQUIRE_SHELLCHECK: "1"
+
+jobs:
+  check:
+    name: check.sh all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - uses: actions/setup-python@v7
+        with:
+          python-version-file: pyproject.toml
+      - name: install locked dependencies
+        run: ./scripts/check.sh setup
+      - name: ruff, shellcheck, pytest and CLI
+        run: ./scripts/check.sh all

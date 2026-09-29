@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(uv sync:*)",
+      "Bash(uv run ruff:*)",
+      "Bash(uv run pytest:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)"
+    ],
+    "ask": [
+      "Bash(uv run vault-agent apply:*)",
+      "Bash(vault-agent apply:*)",
+      "Bash(uv run vault-agent ingest:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ],
+    "deny": [
+      "Read(./00_knowledge/**)",
+      "Read(./01_projects/**)",
+      "Read(./02_areas/**)",
+      "Read(./03_resources/**)",
+      "Read(./04_archive/**)",
+      "Edit(./00_knowledge/**)",
+      "Edit(./01_projects/**)",
+      "Edit(./02_areas/**)",
+      "Edit(./03_resources/**)",
+      "Edit(./04_archive/**)",
+      "Write(./00_knowledge/**)",
+      "Write(./01_projects/**)",
+      "Write(./02_areas/**)",
+      "Write(./03_resources/**)",
+      "Write(./04_archive/**)",
+      "Read(./.env)",
+      "Edit(./.env)",
+      "Write(./.env)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Edit(./.git/**)",
+      "Write(./.git/**)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git clean:*)",
+      "Bash(rm -rf:*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Read|Write|Edit|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/guard.py"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Vault Suggestion",
+  "type": "object",
+  "required": [
+    "suggestion_id",
+    "run_id",
+    "note",
+    "risk",
+    "proposed_actions",
+    "status",
+    "source_sha256",
+    "mtime",
+    "file_size"
+  ],
+  "properties": {
+    "suggestion_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "note": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "risk": { "type": "string", "enum": ["low", "medium", "high"] },
+    "proposed_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "update_frontmatter",
+              "add_frontmatter_field",
+              "normalize_tags",
+              "move_note",
+              "add_alias"
+            ]
+          },
+          "field": { "type": "string" },
+          "new_value": {},
+          "target_path": { "type": "string" },
+          "reason": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "approved", "rejected", "stale", "applied", "failed"]
+    },
+    "reasoning_summary": { "type": "string" },
+    "requires_manual_review": { "type": "boolean" },
+    "similar_notes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "source_sha256": { "type": "string", "minLength": 1 },
+    "mtime": { "type": "number" },
+    "file_size": { "type": "integer", "minimum": 0 }
+  },
+  "additionalProperties": true
+}
