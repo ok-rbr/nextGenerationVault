@@ -1,0 +1,10 @@
+{
+  "accentColor": "#5fb230",
+  "interfaceFontFamily": "JetBrainsMono Nerd Font",
+  "textFontFamily": "JetBrainsMono Nerd Font",
+  "monospaceFontFamily": "JetBrainsMono Nerd Font",
+  "showViewHeader": true,
+  "showRibbon": true,
+  "cssTheme": "",
+  "theme": "obsidian"
+}

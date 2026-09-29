@@ -1,0 +1,33 @@
+{
+  "showGettingStartedBanner": true,
+  "hasMigratedDailyNoteSettings": true,
+  "hasMigratedWeeklyNoteSettings": false,
+  "daily": {
+    "format": "YYYYMMDD",
+    "folder": "02_areas/life/logs/daily",
+    "template": "99_system/01_templates/02_areas/01_periodicNotes/daily_default.md",
+    "enabled": true
+  },
+  "weekly": {
+    "format": "",
+    "template": "99_system/01_templates/02_areas/01_periodicNotes/weekly_default.md",
+    "folder": "02_areas/03_weekly",
+    "enabled": true
+  },
+  "monthly": {
+    "format": "",
+    "template": "",
+    "folder": "",
+    "enabled": true
+  },
+  "quarterly": {
+    "format": "",
+    "template": "",
+    "folder": ""
+  },
+  "yearly": {
+    "format": "",
+    "template": "",
+    "folder": ""
+  }
+}

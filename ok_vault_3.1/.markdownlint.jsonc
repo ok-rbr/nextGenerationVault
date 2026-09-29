@@ -1,0 +1,18 @@
+{
+  "default": true,
+  // lange Zeilen in PKM/Obsidian oft gewollt
+  "MD013": false,
+  // Obsidian arbeitet viel mit ungeordneten Notizen/Headings
+  "MD022": false,
+  "MD032": false,
+  // Duplicate headings sind in Templates / wiederkehrenden Sektionen oft ok
+  "MD024": false,
+  // Listenstil nicht zu dogmatisch
+  "MD004": {
+    "style": "dash"
+  },
+  // fenced code blocks bevorzugen
+  "MD046": {
+    "style": "fenced"
+  }
+}
