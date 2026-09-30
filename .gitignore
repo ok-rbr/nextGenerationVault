@@ -1,0 +1,102 @@
+# Obsidian — local workspace, plugins and settings
+.obsidian/
+.trash/
+
+# Historical snapshots are not part of the consolidated vault.
+/ok_vault_3.1/
+/ok_vault_experimental/
+/voidlink/
+
+# Only reviewed generic system templates and fictional examples are versioned.
+# Git ignores do not protect already tracked files: review every file before adding it.
+99_system/01_templates/**/*.md
+!99_system/01_templates/00_knowledge/knowledge_atomic_default.md
+!99_system/01_templates/00_knowledge/knowledge_inbox_default.md
+!99_system/01_templates/00_knowledge/knowledge_literature_default.md
+!99_system/01_templates/00_knowledge/knowledge_permanent_default.md
+!99_system/01_templates/01_projects/README.md
+!99_system/01_templates/01_projects/eldenring/*.md
+!99_system/01_templates/02_areas/health/**/*.template.md
+!99_system/01_templates/02_areas/life/log/*_default.md
+!99_system/01_templates/02_areas/life/log/weekly_review_template.md
+!99_system/01_templates/02_areas/notes/*_template.md
+!99_system/01_templates/02_areas/notes/note_default.md
+!99_system/01_templates/99_neovim_simple/*.md
+!99_system/01_templates/CHANGELOG.md
+
+99_system/015_templates/**/*.md
+!99_system/015_templates/00_knowledge/vault_dashboard.md
+!99_system/015_templates/02_areas/health/training/*.md
+!99_system/015_templates/01_projects/default/*.md
+!99_system/015_templates/daily.md
+!99_system/015_templates/weekly.md
+!99_system/015_templates/monthly.md
+!99_system/015_templates/task.md
+
+# Runtime outputs, generated client/project templates and attachments stay local.
+99_system/04_logs/*
+!99_system/04_logs/.gitkeep
+99_system/attachments/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*~
+.*.swp
+
+# Backups
+*.bak
+
+# Logs
+*.log
+
+# Build artifacts
+node_modules/
+# pnpm content-addressed store; a cache, never source (it was committed once)
+.pnpm-store/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+
+# Machine-local configuration and credentials
+**/.env
+**/.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+**/.venv/
+.venv/
+
+# Local AI indexes / caches
+**/.voidlink_index/
+**/.embeddings/
+**/.cache_voidlink/
+**/ai_runtime_data/
+# vault-agent output describes the real vault; only the placeholder is tracked (#43)
+99_system/ai_staging/*
+!99_system/ai_staging/.gitkeep
+99_system/ai_index/
+
+# Private and work content are both local, including generated project templates.
+/00_knowledge/
+/01_projects/
+/02_areas/
+/03_resources/
+04_archive/
+
+# Private data / exports — nie versionieren
+issues.json
+test.txt

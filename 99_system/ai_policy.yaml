@@ -1,0 +1,68 @@
+# Paths are prefixes relative to the vault root. Every entry must name a folder
+# that exists in the vault: vault-agent warns about a prefix that matches
+# nothing (#32). Derived from the vault inventory of 2026-05-01, folder names
+# only.
+
+# Never changed by an automated write.
+protected_paths:
+  - "99_system/"
+  - "02_areas/health/"
+  - "02_areas/safehouse/accounting/"
+
+# Never sent to a language model. Health data, personal logs and documents,
+# notes about people, private chat backups, and personal records (tax,
+# insurance, official papers, applications, password database).
+llm_excluded_paths:
+  - "01_projects/"
+  - "02_areas/work/"
+  - "02_areas/health/"
+  - "02_areas/life/"
+  - "03_resources/clients/"
+  - "03_resources/people/"
+  - "04_archive/Privat/"
+  - "04_archive/BackUp/WhatsApp/"
+  - "04_archive/Steuer/"
+  - "04_archive/Versicherung/"
+  - "04_archive/Unterlagen/"
+  - "04_archive/Dokumente/"
+  - "04_archive/Bewerbung/"
+  - "04_archive/KeePass/"
+
+# Flagged as sensitive in suggestions and review. Same set as above.
+sensitive_paths:
+  - "01_projects/"
+  - "02_areas/work/"
+  - "02_areas/health/"
+  - "02_areas/life/"
+  - "03_resources/clients/"
+  - "03_resources/people/"
+  - "04_archive/Privat/"
+  - "04_archive/BackUp/WhatsApp/"
+  - "04_archive/Steuer/"
+  - "04_archive/Versicherung/"
+  - "04_archive/Unterlagen/"
+  - "04_archive/Dokumente/"
+  - "04_archive/Bewerbung/"
+  - "04_archive/KeePass/"
+
+pii_keywords:
+  - "ssn"
+  - "social security"
+  - "iban"
+  - "passport"
+  - "medical"
+
+forbidden_actions:
+  - "delete_note"
+  - "rewrite_content"
+
+allowed_actions:
+  - "add_frontmatter_field"
+  - "normalize_tags"
+  - "move_note"
+  - "update_frontmatter"
+  - "add_alias"
+
+never_delete: true
+never_overwrite_without_review: true
+never_send_to_remote_llm: true
