@@ -125,7 +125,7 @@ Es dürfen nur die dokumentierten Felder verwendet werden. Keine zusätzlichen F
 
 # Client-Tags
 #client/kunde_name
-#client/acme_gmbh
+#client/example
 
 # Optional verschachtelt
 #topic/azure/governance
@@ -265,7 +265,7 @@ aliases: []
 title: "website_relaunch"
 id: "20251110_1430"
 created: "2025-11-10 14:30"
-tags: ["project", "client/acme_gmbh", "topic/web", "tool/azure"]
+tags: ["project", "client/example", "topic/web", "tool/azure"]
 category: "project"
 status: "in-progress"
 client: "ACME GmbH"

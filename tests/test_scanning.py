@@ -62,7 +62,7 @@ def test_scan_excludes_repository_tooling_and_symlinks(tmp_path):
     notes = tmp_path / "00_knowledge"
     notes.mkdir()
     (notes / "example.md").write_text("# Example", encoding="utf-8")
-    outside = tmp_path.parent / "external_note.md"
+    outside = tmp_path.parent / f"{tmp_path.name}_external_note.md"
     outside.write_text("# Outside", encoding="utf-8")
     (notes / "linked.md").symlink_to(outside)
 

@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+from voidlink_cli.llm.enhanced_engine import EnhancedPlanningEngine
 from voidlink_cli.planning.engine import MigrationAction, MigrationPlan, PlanningEngine
 from voidlink_cli.planning.para import ParaCategory, ParaClassifier
 
@@ -106,3 +107,35 @@ def test_migration_plan_to_dict():
     plan_dict = plan.to_dict()
     assert plan_dict["run_id"] == "test_001"
     assert len(plan_dict["actions"]) == 1
+
+
+def test_llm_plan_never_reads_excluded_work_notes(tmp_path, monkeypatch):
+    seen = []
+
+    class LocalModel:
+        available = True
+
+        def extract_frontmatter(self, content):
+            seen.append(content)
+            return {"success": False}
+
+        def classify_para_with_llm(self, *args):
+            return {"used_llm": False}
+
+    monkeypatch.setattr("voidlink_cli.llm.enhanced_engine.OllamaClient", LocalModel)
+    paths = ("01_projects/example/private.md", "00_knowledge/01_atomic/public.md")
+    for path in paths:
+        note = tmp_path / path
+        note.parent.mkdir(parents=True)
+        note.write_text(path)
+
+    engine = EnhancedPlanningEngine(use_llm=True)
+    plan = engine.generate_plan(
+        [{"path": path, "category": "area"} for path in paths],
+        vault_path=str(tmp_path),
+        read_content=True,
+        sample_size=50,
+        llm_allowed_paths={paths[1]},
+    )
+    assert plan.total_notes == 2
+    assert seen == [paths[1]]

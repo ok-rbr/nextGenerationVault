@@ -13,16 +13,15 @@ A Neovim-first, Obsidian-compatible system for personal and work knowledge. The 
 - [Philosophy & Methods](#structure-philosophy)
 - [Vault Automation Scripts](#vault-automation-scripts)
 - [vault-agent CLI](#vault-agent-cli)
-- [Statistics](#vault-statistics)
 
 ## Overview
 
-VoidLink is an experimental personal knowledge management (PKM) system designed for systematic information capture, project management, and personal development tracking. It combines proven methodologies with a pragmatic, developer-friendly approach.
+This vault system combines private knowledge management and local work project workflows. VoidLink's schemas, CLI and templates are the baseline; compatible generic patterns from the other versions have been adapted for Neovim. No actual notes or client-specific templates are distributed.
 
 ### Core Features
 
 - ✅ **PARA Organization**: Clear separation of Projects, Areas, Resources, and Archive
-- 📝 **Template System**: 26+ specialized templates for various use cases
+- 📝 **Template System**: Reviewed generic templates for Neovim and optional Obsidian
 - 🧠 **Zettelkasten Knowledge Base**: Structured knowledge progression from inbox to permanent notes
 - 🔗 **Networked Thinking**: Automatic linking and relationship management
 - 📊 **Dataview Queries**: Dynamic dashboards and filtered views
@@ -110,7 +109,7 @@ The five PARA directories are created locally as needed. They are not committed,
 
 ## Template System
 
-The vault includes **26+ specialized templates** organized by use case and domain. Templates use Templater for dynamic content generation and automatic file organization.
+The system has separate template directories: `99_system/015_templates/` for Neovim's `{{ variable }}` format, and `99_system/01_templates/` for optional Obsidian Templater scripts. Keep locally generated or personalized templates out of Git.
 
 ### 🧠 Knowledge Templates (4)
 
@@ -283,14 +282,9 @@ Templates are located in `99_system/01_templates/` organized by category.
 
 ```markdown
 1. Create folder: 01_projects/my_project/
-2. Use template: 01_templates/01_projects/README.md
-3. Fill in project metadata:
-   - Title, client, due date, status
-4. Template creates project structure:
-   - README.md (overview)
-   - notes/ (general notes)
-   - log/ (daily logs)
-   - tasks/ (task tracking)
+2. In Neovim, run `:NoteProjectCreate` and enter a client and project name.
+3. The command creates the local client and project indexes plus templates
+   for daily, weekly, meeting, documentation and task notes.
 ```
 
 ## Naming Conventions & Frontmatter
@@ -319,9 +313,7 @@ Templates are located in `99_system/01_templates/` organized by category.
 
 ### Standard Frontmatter
 
-The conventions are owned by voidCore, which writes the notes
-([`docs/VAULT_STRUCTURE.md`](https://github.com/raxovile/voidCore/blob/experiment626/docs/VAULT_STRUCTURE.md),
-ADR-005, `docs/WORK_TAXONOMY.md`).
+The local Neovim note layer writes notes under these conventions.
 [`99_system/05_schemas/frontmatter.schema.json`](99_system/05_schemas/frontmatter.schema.json)
 mirrors them, and `vault-agent validate frontmatter` checks every note against it.
 
@@ -344,7 +336,7 @@ concepts: []
 **Required**:
 - `title`: human-readable title
 - `id`: the file name stem, i.e. the wiki-link target (`20260921_1030_note_title`,
-  `20260921` for a daily note, `acme_client_index`). Lowercase alphanumerics
+  `20260921` for a daily note, `example_client_index`). Lowercase alphanumerics
   separated by `_`; it must equal the file name without `.md`
 - `created`: `YYYY-MM-DD HH:mm`
 - `tags`: array of lowercase tags, segments separated by `/`, `_` or `-`
@@ -447,8 +439,8 @@ scripts that used to live in `99_system/_scripts/` were removed (#44):
 | `vaultops.py lint` | `vault-agent validate frontmatter` |
 | `voidlink_agent.py` (`POST /suggest`, FastAPI + Ollama) | `vault-agent plan` and `vault-agent ingest`, which propose metadata into `99_system/ai_staging/` for review |
 
-AI features beyond metadata suggestions — embeddings, semantic search — belong
-to VoidSentinel ([voidSentinel#8](https://github.com/raxovile/voidSentinel/issues/8)).
+AI features beyond metadata suggestions, such as embeddings and semantic
+search, are out of scope for this shared vault system.
 `99_system/_scripts/` keeps the Templater library `lib.js` and the
 `new-yoga-pose.ps1` helper.
 
@@ -705,7 +697,7 @@ src/voidlink_cli/
 
 
 
-**Template Library Changelog**: See `99_system/01_templates/CHANGELOG.md` for version history and feature documentation.
+**Template library history**: `99_system/01_templates/CHANGELOG.md` describes earlier Obsidian scripts; current Neovim templates live separately in `99_system/015_templates/`.
 
 ## Technologies & Tools
 

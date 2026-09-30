@@ -405,7 +405,7 @@ When adding or modifying scripts:
 
 - **Templates**: `../../01_templates/CHANGELOG.md`
 - **Library Functions**: `../../_scripts/README.md`
-- **Workflow Guide**: `../WORKFLOW_GUIDE.md`
+- **Vault setup and workflows**: `../../../README.md`
 
 ---
 

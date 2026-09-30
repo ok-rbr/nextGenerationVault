@@ -67,12 +67,9 @@ locally and fails in CI.
 
 ## House standard
 
-`.editorconfig`, `.gitattributes` and the core of `.pre-commit-config.yaml`
-follow the VoidSystem house standard
-([raxovile/voidCore#275](https://github.com/raxovile/voidCore/issues/275)) and
-are identical in every VoidSystem repository. Change the standard in voidCore
-first, then here; a local deviation needs a justification as a comment in the
-file itself. Run `pre-commit install` once per clone. `.secrets.baseline` lists
+`.editorconfig`, `.gitattributes` and `.pre-commit-config.yaml` follow the
+original shared standards; adapt them here only with a documented reason.
+Run `pre-commit install` once per clone. `.secrets.baseline` lists
 reviewed `detect-secrets` findings: update it with
 `detect-secrets scan --baseline .secrets.baseline` and review the new entries,
 never regenerate it as part of an unrelated change.

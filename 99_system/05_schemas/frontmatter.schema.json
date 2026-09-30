@@ -1,14 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "VoidLink Frontmatter",
-  "description": "Base frontmatter of every vault note. Mirrors what raxovile/voidCore writes (dot_config/nvim/lua/notes/frontmatter.lua, docs/VAULT_STRUCTURE.md, ADR-005, docs/WORK_TAXONOMY.md). vault-agent additionally checks that id equals the file name stem.",
+  "description": "Base frontmatter of every vault note. Mirrors the local Neovim notes/frontmatter.lua conventions; vault-agent also checks that id equals the file name stem.",
   "type": "object",
   "required": ["title", "id", "created", "tags", "category"],
   "properties": {
     "title": { "type": "string", "minLength": 1 },
     "aliases": { "type": "array", "items": { "type": "string" } },
     "id": {
-      "description": "The file name stem (ADR-005), e.g. 20260921_1030_note_title, 20260921 or acme_client_index. An all-digit stem written unquoted reads as an integer.",
+      "description": "The file name stem, e.g. 20260921_1030_note_title, 20260921 or example_client_index. An all-digit stem written unquoted reads as an integer.",
       "type": ["string", "integer"],
       "minimum": 0,
       "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$"

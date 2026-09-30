@@ -274,7 +274,7 @@ await lib.upsertIndex(app, { indexPath, frontmatter: fm, sections });
   - ISO: `YYYY-MM-DD HH:mm`
   - Legacy: `YYYYMMDD - HHmm`
 - **Slugs**: lowercase, underscores, no special characters (umlauts converted: ä→ae, ö→oe, ü→ue, ß→ss)
-- **Tags**: short, lowercase, with context (`topic/identity`, `client/acme_gmbh`)
+- **Tags**: short, lowercase, with context (`topic/identity`, `client/example`)
 - **Language**: English by default, `lang: "en"` in all new frontmatter
 - **Exceptions**: Proper names (Microsoft Entra ID), acronyms (API, SSO), code tokens may retain uppercase
 

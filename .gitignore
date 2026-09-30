@@ -21,7 +21,6 @@
 !99_system/01_templates/02_areas/life/log/weekly_review_template.md
 !99_system/01_templates/02_areas/notes/*_template.md
 !99_system/01_templates/02_areas/notes/note_default.md
-!99_system/01_templates/99_neovim_simple/*.md
 !99_system/01_templates/CHANGELOG.md
 
 99_system/015_templates/**/*.md
