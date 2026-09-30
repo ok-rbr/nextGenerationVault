@@ -267,6 +267,8 @@ local function get_subdir(filename)
     return "monthly"
   elseif filename:match("scripts") then
     return "scripts"
+  elseif filename:match("task") then
+    return "tasks"
   else
     return ""
   end
@@ -566,6 +568,7 @@ local function create_project_templates(vars)
     "weekly",
     "monthly",
     "scripts",
+    "tasks",
   }
 
   for _, subdir in ipairs(subdirs) do
