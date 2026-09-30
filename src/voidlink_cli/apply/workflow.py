@@ -222,7 +222,10 @@ def _apply_note_actions(
     vault_root: Path, note_path: Path, actions: list[dict], policy: AIPolicy
 ) -> tuple[Path, str, str, int]:
     vault_root = vault_root.resolve()
-    if note_path.is_symlink() or not note_path.resolve().is_relative_to(vault_root):
+    if note_path.is_symlink():
+        raise ValueError("note path must stay inside the vault")
+    note_path = note_path.resolve()
+    if not note_path.is_relative_to(vault_root):
         raise ValueError("note path must stay inside the vault")
     if not note_path.exists():
         raise FileNotFoundError(f"note not found: {note_path}")
@@ -308,6 +311,7 @@ def preview_approved_suggestions(vault_root: Path, db_path: Path) -> dict:
 
 def apply_approved_suggestions(vault_root: Path, db_path: Path, policy: AIPolicy) -> dict:
     """Apply approved suggestions with staleness and policy checks."""
+    vault_root = Path(vault_root).resolve()
     if not _git_clean(vault_root):
         raise RuntimeError("git working tree is not clean; aborting apply")
 

@@ -219,3 +219,23 @@ def test_move_rejects_out_of_vault_targets(tmp_path, target):
         _apply_note_actions(vault, note, [{"type": "move_note", "target_path": target}], policy)
     assert note.read_text(encoding="utf-8") == "# Note"
     assert not (outside / "outside.md").exists()
+
+
+def test_apply_note_under_symlinked_vault_root(tmp_path):
+    vault = tmp_path / "vault"
+    vault.mkdir()
+    (vault / "note.md").write_text("# Note", encoding="utf-8")
+    linked = tmp_path / "vault_link"
+    linked.symlink_to(vault, target_is_directory=True)
+    policy = AIPolicy(
+        protected_paths=tuple(),
+        llm_excluded_paths=tuple(),
+        forbidden_actions=("delete_note",),
+        allowed_actions=("add_alias",),
+    )
+
+    final_path, _, _, _ = _apply_note_actions(
+        linked, linked / "note.md", [{"type": "add_alias", "new_value": "Example"}], policy
+    )
+    assert final_path == vault / "note.md"
+    assert "Example" in final_path.read_text(encoding="utf-8")
