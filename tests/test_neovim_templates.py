@@ -220,3 +220,10 @@ def test_monthly_notes_created_by_neovim_are_in_the_schema():
     template = (TEMPLATES / "monthly.md").read_text(encoding="utf-8")
     assert '"monthly"' in SCHEMA.read_text(encoding="utf-8")
     assert template.startswith("---\n")
+
+
+def test_neovim_expands_and_validates_variable_template_locations():
+    source = (ROOT / "nvim/lua/notes/templates.lua").read_text(encoding="utf-8")
+    assert 'extract_variables(template_content .. "\\n" .. (template_location or ""))' in source
+    assert "replace_variables(template_location, values)" in source
+    assert 'location:find("{{%s*[%w_]+%s*}}")' in source

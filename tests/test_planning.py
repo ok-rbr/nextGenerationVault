@@ -139,3 +139,12 @@ def test_llm_plan_never_reads_excluded_work_notes(tmp_path, monkeypatch):
     )
     assert plan.total_notes == 2
     assert seen == [paths[1]]
+
+    seen.clear()
+    engine.generate_plan(
+        [{"path": path, "category": "area"} for path in paths],
+        vault_path=str(tmp_path),
+        read_content=True,
+        sample_size=50,
+    )
+    assert seen == []

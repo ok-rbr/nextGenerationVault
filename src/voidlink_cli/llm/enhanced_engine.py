@@ -94,12 +94,14 @@ class EnhancedPlanningEngine:
 
         # Determine which notes receive LLM enhancement
         notes_to_enhance: list[dict] = []
-        if self.llm and self.llm.available and read_content and sample_size:
-            eligible = [
-                note
-                for note in notes
-                if llm_allowed_paths is None or note.get("path") in llm_allowed_paths
-            ]
+        if (
+            self.llm
+            and self.llm.available
+            and read_content
+            and sample_size
+            and llm_allowed_paths is not None
+        ):
+            eligible = [note for note in notes if note.get("path") in llm_allowed_paths]
             notes_to_enhance = random.sample(eligible, min(sample_size, len(eligible)))
 
         for note in notes:
