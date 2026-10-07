@@ -299,7 +299,7 @@ function M.create_from_template_file(template_path, context)
   end
 
   -- Extract variables from template
-  local variables = extract_variables(template_content)
+  local variables = extract_variables(template_content .. "\n" .. (template_location or ""))
 
   -- Initialize context for deduplication
   local values_context = vim.tbl_extend("force", {}, context or {})
@@ -384,6 +384,12 @@ function M.create_from_template_file(template_path, context)
     vim.notify("Template creation cancelled", vim.log.levels.WARN)
     return false
   end
+  for _, field in ipairs({ "client_slug", "project_slug" }) do
+    if values[field] ~= nil and not utils.is_slug(values[field]) then
+      vim.notify(field .. " must be a lowercase underscore-separated slug", vim.log.levels.ERROR)
+      return false
+    end
+  end
 
   -- Replace variables in template
   local content = replace_variables(template_content, values)
@@ -392,7 +398,7 @@ function M.create_from_template_file(template_path, context)
   local vault_root = utils.get_notebook_root()
 
   -- Determine location: use template_location if specified, otherwise infer from template path
-  local location = template_location
+  local location = template_location and replace_variables(template_location, values) or nil
 
   if not location then
     -- Fallback: infer from template path (old behavior), directories always
@@ -414,7 +420,7 @@ function M.create_from_template_file(template_path, context)
     location = default_location
   end
 
-  if not utils.is_safe_relative_path(location or "") then
+  if (location and location:find("{{%s*[%w_]+%s*}}")) or not utils.is_safe_relative_path(location or "") then
     vim.notify("Unsafe template location: " .. tostring(location), vim.log.levels.ERROR)
     return false
   end

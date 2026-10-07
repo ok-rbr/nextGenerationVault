@@ -11,7 +11,7 @@ support.
   vault, Taskwarrior, templates)
 - **[style-configs/](./style-configs)** - Formatter and linter configuration
   this setup deploys for other projects
-- **[docs/nvim/PROFILES.md](../../docs/nvim/PROFILES.md)** - Profile system
+- **[lua/core/profile.lua](./lua/core/profile.lua)** - Profile system
   (`core` / `dev` / `allMight`)
 
 ## Quick Start
@@ -83,8 +83,7 @@ Present in the tree but **not loaded**:
 **marksman** (Markdown) supplies broken-wiki-link diagnostics and completion for
 the vault and this repository's `docs/`. Completion is available on demand with
 `<C-Space>`. In the `allMight` profile Marksman does not attach to the
-daily-note directory, avoiding a known indexing stall there (see
-[ADR-005](../../docs/ADR-005-note-taking-layer-ownership.md)).
+daily-note directory, avoiding a known indexing stall there.
 
 Chezmoi templates (`*.tmpl`) are mapped to their underlying filetype when
 possible (for example `dot_gitconfig.tmpl` → `gitconfig` and
@@ -108,10 +107,8 @@ Format on Save is only active when a matching formatter config file exists in
 the current project. Repository defaults under `style-configs/` are no longer
 used as automatic fallbacks for save-time formatting.
 
-For Markdown, JSON, JSONC, and YAML in this repository, Conform uses the
-project's `.prettierrc` and `.prettierignore`. When
-`.tooling/node_modules/.bin/prettier` exists, it uses that repository-local
-pinned version; otherwise it uses the project's `prettier` from `PATH`.
+For Markdown, JSON, JSONC, and YAML, Conform uses the active project's
+formatter settings when present.
 
 For Bicep, formatting is provided via LSP fallback (no extra formatter needed).
 Install Bicep CLI via `brew install bicep` or `az bicep install`. Tree-sitter
@@ -215,8 +212,8 @@ terminates or exits.
 
 **Notes & Knowledge Management**:
 
-The stack is split into four layers with one owner each; see
-[ADR-005](../../docs/ADR-005-note-taking-layer-ownership.md).
+The stack has a native Lua owner for notes; see the
+[vault README](../README.md) for its root and template directories.
 
 - [`lua/notes/`](./lua/notes/README.md) - daily notes, templates, frontmatter,
   PARA routing, queries and native wiki-link creation/following
@@ -225,9 +222,10 @@ The stack is split into four layers with one owner each; see
 - [autolist.nvim](https://github.com/gaoDean/autolist.nvim) - Smart List
   Management
 
-`:NotePasteImage` (`<leader>op`) saves the clipboard image into the attachment
-folder shared with the Obsidian desktop app (`dot_config/obsidian/app.json`)
-using `wl-paste`, `xclip`, `pngpaste` or PowerShell, whichever the platform has.
+`:NotePasteImage` (`<leader>op`) saves the clipboard image into
+`99_system/attachments/imgs` under the configured vault root using `wl-paste`,
+`xclip`, `pngpaste` or PowerShell. If using Obsidian, set its attachment folder
+to the same path locally.
 img-clip.nvim was removed earlier because it used a second destination path.
 
 Marksman diagnostics and completion remain enabled outside daily notes; native
@@ -254,8 +252,7 @@ NVIM_PROFILE=dev  nvim   # development profile
 nvim                     # allMight (full, default)
 ```
 
-See **[docs/nvim/PROFILES.md](../../docs/nvim/PROFILES.md)** for the full
-reference including the Lua API for querying the active profile.
+See [`lua/core/profile.lua`](./lua/core/profile.lua) for the Lua API.
 
 ## Structure
 
@@ -403,5 +400,4 @@ This configuration is based on:
 
 ## License
 
-Part of this dotfiles repository — see the
-[License section of the root README](../../README.md#license).
+See the [root README](../README.md#license).
