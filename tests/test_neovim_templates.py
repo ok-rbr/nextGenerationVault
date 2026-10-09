@@ -227,3 +227,26 @@ def test_neovim_expands_and_validates_variable_template_locations():
     assert 'extract_variables(template_content .. "\\n" .. (template_location or ""))' in source
     assert "replace_variables(template_location, values)" in source
     assert 'location:find("{{%s*[%w_]+%s*}}")' in source
+
+
+MEDIA = TEMPLATES / "03_resources" / "media"
+
+
+@pytest.mark.parametrize("name", ["manga", "book", "series", "movie", "default"])
+def test_media_templates_render_to_valid_notes(name):
+    template = (MEDIA / f"media_{name}.md").read_text(encoding="utf-8")
+    values = {
+        "title": "Berserk",
+        "creator": "Kentaro Miura",
+        "medium": "game",
+        "id": "berserk",
+        "created": "2026-09-25 17:06",
+    }
+    assert set(PLACEHOLDER.findall(template)) <= set(values)
+    content, location = render(template, values)
+
+    assert location == "03_resources/media"
+    issues = validate_note_text(
+        content, load_frontmatter_validator(SCHEMA), f"{location}/berserk.md"
+    )
+    assert issues == []
